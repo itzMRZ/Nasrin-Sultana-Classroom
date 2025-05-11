@@ -1,0 +1,116 @@
+<div class="container mt-4">
+    <h2>Submission Details for: <%= locals.assignment ? locals.assignment.title : 'Assignment' %></h2>
+    <hr>
+
+    <% if (locals.submission) { %>
+        <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>Submitted by:</strong>
+                    <% if (locals.student && locals.student.firstName && locals.student.lastName) { %>
+                        <%= locals.student.firstName %> <%= locals.student.lastName %>
+                    <% } else { %>
+                        Student Name Unavailable
+                    <% } %>
+                </div>
+                <div>
+                    <span class="<%= locals.submission.isLate ? 'badge bg-warning text-dark' : 'badge bg-success' %>">
+                        <%= locals.submission.isLate ? 'Late' : 'On time' %>
+                    </span>
+                    <span class="ms-2">
+                        Submitted on <%= new Date(locals.submission.submittedAt).toLocaleDateString() %>
+                        <%= new Date(locals.submission.submittedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) %>
+                    </span>
+                </div>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Content:</h5>
+                <p class="card-text"><%- locals.submission.content %></p>
+
+                <% if (locals.submission.attachments && locals.submission.attachments.length > 0) { %>
+                    <h5 class="card-title mt-3">Attachments:</h5>
+                    <ul class="list-group">
+                        <% locals.submission.attachments.forEach(attachment => { %>
+                            <li class="list-group-item">
+                                <a href="<%= attachment %>" target="_blank"><%= attachment.split('/').pop() %></a>
+                            </li>
+                        <% }); %>
+                    </ul>
+                <% } else { %>
+                    <p>No attachments.</p>
+                <% } %>
+            </div>
+        </div>
+
+        <% if (locals.isTeacher) { %>
+            <hr>
+            <h4>Grade Submission</h4>
+
+            <% if (locals.success_msg && locals.success_msg.length > 0) { %>
+                <div class="alert alert-success">
+                    <%= locals.success_msg %>
+                </div>
+            <% } %>
+
+            <% if (locals.error_msg && locals.error_msg.length > 0) { %>
+                <div class="alert alert-danger">
+                    <%= locals.error_msg %>
+                </div>
+            <% } %>
+
+            <form action="/submission/grade/<%= locals.submission._id %>" method="POST">
+                <div class="mb-3">
+                    <label for="grade" class="form-label">
+                        Grade (Out of <%= locals.assignment ? locals.assignment.points : 100 %> points):
+                    </label>
+                    <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        max="<%= locals.assignment ? locals.assignment.points : 100 %>"
+                        class="form-control"
+                        id="grade"
+                        name="grade"
+                        value="<%= locals.submission.grade || '' %>"
+                        required
+                    >
+                    <small class="form-text text-muted">
+                        Enter a value between 0 and <%= locals.assignment ? locals.assignment.points : 100 %>
+                    </small>
+                </div>
+                <div class="mb-3">
+                    <label for="feedback" class="form-label">Feedback:</label>
+                    <textarea
+                        class="form-control"
+                        id="feedback"
+                        name="feedback"
+                        rows="3"
+                        placeholder="Provide constructive feedback to the student"
+                    ><%= locals.submission.feedback || '' %></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Grade</button>
+            </form>
+        <% } else if (locals.submission.isGraded) { %>
+            <hr>
+            <h4>Grade & Feedback</h4>
+            <p><strong>Grade:</strong> <%= locals.submission.grade %> / <%= locals.assignment ? locals.assignment.points : 100 %></p>
+            <p><strong>Feedback:</strong> <%= locals.submission.feedback || 'No feedback provided.' %></p>
+        <% } else { %>
+            <p>This submission has not been graded yet.</p>
+        <% } %>
+
+    <% } else { %>
+        <p>No submission found for this assignment by you.</p>
+        <% if (!locals.isTeacher && locals.assignment) { %>
+            <a href="/assignment/<%= locals.assignment._id %>/submit" class="btn btn-success">Submit Now</a>
+        <% } %>
+    <% } %>
+
+    <div class="mt-3">
+        <a href="/assignment/<%= locals.assignment ? locals.assignment._id : '' %>" class="btn btn-secondary">Back to Assignment</a>
+        <% if (locals.isTeacher && locals.assignment) { %>
+             <a href="/assignment/<%= locals.assignment._id %>/submissions" class="btn btn-info">View All Submissions</a>
+        <% } %>
+    </div>
+
+</div>

@@ -1,0 +1,88 @@
+/* Stream-specific Styles */
+.stream-feed .card {
+  transition: box-shadow 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.stream-feed .card:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transform: none;
+}
+
+/* Teacher theme: orange (#fc421a) */
+body.teacher .stream-header,
+body.teacher .stream-title {
+  color: #fc421a !important;
+}
+
+/* Student theme: dark purple (#6a0183) */
+body.student .stream-header,
+body.student .stream-title {
+  color: #6a0183 !important;
+}
+
+/* Attachments styling */
+.attachments-section {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.attachment-item {
+  background-color: white;
+  transition: all 0.2s ease;
+}
+
+.attachment-item:hover {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.attachment-link {
+  text-decoration: none;
+  color: #800080;
+  word-break: break-word;
+}
+
+.attachment-preview {
+  max-width: 100%;
+  border-radius: 4px;
+}
+
+/* Links section styling */
+.links-section .list-group-item {
+  transition: background-color 0.2s ease;
+}
+
+.links-section .list-group-item:hover {
+  background-color: #f8f9fa;
+}
+
+/* Comments styling */
+.comments-section {
+  border-top: 1px solid #dee2e6;
+  padding-top: 1rem;
+}
+
+.comments-heading {
+  color: #6c757d;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.comment-item {
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  margin-bottom: 8px;
+}
+
+.comment-content {
+  font-size: 0.9rem;
+  flex-grow: 1;
+}
+
+.add-comment-form {
+  margin-top: 10px;
+}

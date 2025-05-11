@@ -1,0 +1,105 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>Submissions for "<%= locals.assignment ? locals.assignment.title : 'Assignment' %>"</h2>
+      <a href="/assignment/<%= locals.assignment ? locals.assignment._id : '#' %>" class="btn btn-outline-secondary">
+        Back to Assignment
+      </a>
+    </div>
+      <div class="card mb-4">
+      <div class="card-body">
+        <h5>Class: <%= locals.class ? locals.class.name : 'N/A' %> (<%= locals.class ? locals.class.section : 'N/A' %>)</h5>
+        <p>Due Date: <%= locals.assignment ? new Date(locals.assignment.dueDate).toLocaleDateString() : 'N/A' %> <%= locals.assignment ? new Date(locals.assignment.dueDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '' %></p>
+        <p>Total Points: <%= locals.assignment ? locals.assignment.points : 'N/A' %></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="d-flex justify-content-between">
+          <h5 class="mb-0">Student Submissions</h5>          <span class="badge bg-primary">
+            <%= locals.submissions ? locals.submissions.length : 0 %> / <%= locals.class && locals.class.students ? locals.class.students.length : 0 %> submitted
+          </span>
+        </div>
+      </div>
+      <div class="card-body">        <% if (locals.submissions && locals.submissions.length > 0) { %>
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Status</th>
+                  <th>Submitted</th>
+                  <th>Grade</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% locals.submissions.forEach(submission => { %>
+                  <tr>                    <td>
+                      <%= submission.student && submission.student.firstName ? submission.student.firstName : 'N/A' %> <%= submission.student && submission.student.lastName ? submission.student.lastName : '' %>
+                    </td>
+                    <td>
+                      <% if (submission.isLate) { %>
+                        <span class="badge bg-warning text-dark">Late</span>
+                      <% } else { %>
+                        <span class="badge bg-success">On time</span>
+                      <% } %>
+                    </td>                    <td>
+                      <%= submission.submittedAt ? new Date(submission.submittedAt).toLocaleDateString() : 'N/A' %>
+                      <%= submission.submittedAt ? new Date(submission.submittedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '' %>
+                    </td><td>
+                      <% if (submission.isGraded) { %>
+                        <%= submission.grade %> / <%= locals.assignment ? locals.assignment.points : '?' %>
+                      <% } else { %>
+                        <span class="text-muted">Not graded</span>
+                      <% } %>
+                    </td>                    <td>
+                      <div class="btn-group">
+                        <a href="/submission/view/<%= submission._id %>" class="btn btn-sm btn-outline-primary">View</a>
+                        <button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#gradeModal<%= submission._id %>">
+                          Grade
+                        </button>
+                      </div>
+
+                      <!-- Grade Modal -->
+                      <div class="modal fade" id="gradeModal<%= submission._id %>" tabindex="-1" aria-labelledby="gradeModalLabel<%= submission._id %>" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">                              <h5 class="modal-title" id="gradeModalLabel<%= submission._id %>">
+                                Grade Submission - <%= submission.student && submission.student.firstName ? submission.student.firstName : 'Student' %> <%= submission.student && submission.student.lastName ? submission.student.lastName : '' %>
+                              </h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>                            <form action="/submission/grade/<%= submission._id %>" method="POST">
+                              <div class="modal-body">                                <div class="mb-3">
+                                  <label for="grade<%= submission._id %>" class="form-label">Grade (out of <%= locals.assignment ? locals.assignment.points : '?' %>)</label>
+                                  <input type="number" class="form-control" id="grade<%= submission._id %>" name="grade" min="0" max="<%= locals.assignment ? locals.assignment.points : 100 %>" value="<%= submission.isGraded ? submission.grade : '' %>" required>
+                                </div>
+                                <div class="mb-3">
+                                  <label for="feedback<%= submission._id %>" class="form-label">Feedback</label>
+                                  <textarea class="form-control" id="feedback<%= submission._id %>" name="feedback" rows="3"><%= submission.feedback || '' %></textarea>
+                                </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Grade</button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        <% } else { %>
+          <div class="alert alert-info">
+            <p class="mb-0">No submissions yet for this assignment.</p>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>

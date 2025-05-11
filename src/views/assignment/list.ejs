@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <div class="d-flex justify-content-between align-items-center mb-4">      <h2>Assignments for <%= locals.class ? locals.class.name : 'N/A' %></h2>
+      <div>
+        <% if (locals.isTeacher) { %>
+          <a href="/assignment/create/<%= locals.class ? locals.class._id : '' %>" class="btn btn-primary">
+            <i class="bi bi-plus"></i> Create Assignment
+          </a>
+        <% } %>
+        <a href="/class/<%= locals.class ? locals.class._id : '' %>" class="btn btn-outline-secondary ms-2">
+          <i class="bi bi-arrow-left"></i> Back to Class
+        </a>
+      </div>
+    </div>
+
+    <% if (assignments && assignments.length > 0) { %>
+      <div class="list-group">
+        <% assignments.forEach(assignment => { %>
+          <a href="/assignment/<%= assignment._id %>" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1"><%= assignment.title %></h5>
+              <small>
+                <% const dueDate = new Date(assignment.dueDate); %>
+                <% const now = new Date(); %>
+                <% const isOverdue = now > dueDate; %>
+                <span class="<%= isOverdue ? 'text-danger' : 'text-muted' %>">
+                  Due: <%= dueDate.toLocaleDateString() %> <%= dueDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) %>
+                </span>
+              </small>
+            </div>
+            <p class="mb-1"><%= (assignment.description || '').substring(0, 150) %><%= (assignment.description || '').length > 150 ? '...' : '' %></p>
+            <div class="d-flex justify-content-between">
+              <small>Points: <%= assignment.points %></small>
+              <small>Posted by:
+                <% if (assignment.createdBy) { %>
+                  <%= assignment.createdBy.firstName || 'N/A' %> <%= assignment.createdBy.lastName || '' %>
+                <% } else { %>
+                  N/A
+                <% } %>
+              </small>
+            </div>
+          </a>
+        <% }); %>
+      </div>
+    <% } else { %>      <div class="alert alert-info">
+        <p>No assignments have been created for this class yet.</p>
+        <% if (locals.isTeacher) { %>
+          <a href="/assignment/create/<%= locals.class ? locals.class._id : '' %>" class="btn btn-primary">Create Assignment</a>
+        <% } %>
+      </div>
+    <% } %>
+  </div>
+</div>

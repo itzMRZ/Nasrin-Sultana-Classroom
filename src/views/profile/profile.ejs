@@ -1,0 +1,29 @@
+<div class="container">
+    <%- include('../partials/messages') %>
+    <div class="row">
+        <div class="col-md-4 text-center">
+            <img src="<%= (locals.profileData.profileImage && locals.profileData.profileImage.startsWith('/')) ? locals.profileData.profileImage : '/images/default_user_image.jpg' %>"
+                 alt="<%= locals.profileData.firstName %> <%= locals.profileData.lastName %>"
+                 class="img-fluid rounded-circle mb-3"
+                 style="width: 150px; height: 150px; object-fit: cover;">
+            <h3><%= locals.profileData.firstName %> <%= locals.profileData.lastName %></h3>
+            <p class="text-muted">@<%= locals.profileData.username %></p>
+            <% if (locals.user && locals.profileData && locals.user.id === locals.profileData._id.toString()) { %>
+                <a href="/profile/edit" class="btn btn-primary">Edit Profile</a>
+            <% } %>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    User Details
+                </div>
+                <div class="card-body">
+                    <p><strong>Email:</strong> <%= locals.profileData.email %></p>
+                    <p><strong>Role:</strong> <%= locals.profileData.role.charAt(0).toUpperCase() + locals.profileData.role.slice(1) %></p>
+                    <p><strong>Joined:</strong> <%= new Date(locals.profileData.createdAt).toLocaleDateString() %></p>
+                    <!-- Add more profile details here as needed -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

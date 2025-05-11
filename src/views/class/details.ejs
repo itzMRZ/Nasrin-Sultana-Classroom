@@ -1,0 +1,229 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2><%= cls.name %></h2>
+      <div>
+        <% if (isTeacher) { %>
+          <a href="/assignment/create/<%= cls._id %>" class="btn btn-primary">
+            <i class="bi bi-plus"></i> Create Assignment
+          </a>
+        <% } %>
+        <a href="/class" class="btn btn-outline-secondary ms-2">
+          <i class="bi bi-arrow-left"></i> Back to Classes
+        </a>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <h5>Class Details</h5>
+            <p><strong>Subject:</strong> <%= cls.subject %></p>
+            <p><strong>Section:</strong> <%= cls.section %></p>
+            <% if (cls.room) { %>
+              <p><strong>Room:</strong> <%= cls.room %></p>
+            <% } %>
+            <p><strong>Teacher:</strong>
+            <% if (cls.createdBy && cls.createdBy.firstName) { %>
+              <%= cls.createdBy.firstName %> <%= cls.createdBy.lastName || '' %>
+            <% } else { %>
+              Unknown Teacher
+            <% } %></p>
+          </div>
+          <div class="col-md-6">
+            <h5>Class Code</h5>
+            <div class="alert alert-secondary">
+              <p class="mb-0"><strong>Share this code with students:</strong></p>
+              <h3 class="mb-0"><%= cls.inviteCode %></h3>
+            </div>
+          </div>
+        </div>
+      </div>    </div>
+
+    <ul class="nav nav-tabs mb-4">
+      <li class="nav-item">
+        <a class="nav-link active" href="/class/<%= cls._id %>">Stream</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/assignment/class/<%= cls._id %>">Assignments</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/class/<%= cls._id %>/people">People</a>
+      </li>
+    </ul>
+
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Class Stream</h5>        <p class="card-text">
+          Welcome to your class stream. Announcements and updates will appear here.
+        </p>        <% if (isTeacher && cls && cls._id) { %>
+          <form action="/class/<%= cls._id %>/announcement" method="POST" class="mb-4" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="announcement" class="form-label">Post an Announcement</label>
+              <textarea class="form-control" id="announcement" name="content" rows="3" placeholder="Share something with your class..."></textarea>
+            </div>
+
+            <!-- File attachments -->
+            <div class="mb-3">
+              <label for="attachments" class="form-label">Attach Files (Optional)</label>
+              <input type="file" class="form-control" id="attachments" name="attachments" multiple>
+              <div class="form-text">Attach up to 5 files (20MB max each)</div>
+            </div>
+
+            <!-- Link attachments -->
+            <div class="link-inputs mb-3">
+              <label class="form-label">Add Links (Optional)</label>
+              <div class="input-group mb-2">
+                <input type="url" class="form-control" name="links" placeholder="https://example.com">
+                <button type="button" class="btn btn-outline-secondary add-link-btn">Add Another Link</button>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Post Announcement</button>
+          </form>
+
+          <!-- JavaScript for adding more link fields -->
+          <script>
+            document.addEventListener('DOMContentLoaded', function() {
+              const addLinkBtn = document.querySelector('.add-link-btn');
+              const linkInputsContainer = document.querySelector('.link-inputs');
+
+              if (addLinkBtn && linkInputsContainer) {
+                addLinkBtn.addEventListener('click', function() {
+                  const inputGroup = document.createElement('div');
+                  inputGroup.className = 'input-group mb-2';
+
+                  const input = document.createElement('input');
+                  input.type = 'url';
+                  input.className = 'form-control';
+                  input.name = 'links';
+                  input.placeholder = 'https://example.com';
+
+                  const removeBtn = document.createElement('button');
+                  removeBtn.type = 'button';
+                  removeBtn.className = 'btn btn-outline-danger';
+                  removeBtn.textContent = 'Remove';
+                  removeBtn.addEventListener('click', function() {
+                    inputGroup.remove();
+                  });
+
+                  inputGroup.appendChild(input);
+                  inputGroup.appendChild(removeBtn);
+
+                  // Insert before the first input-group's add button
+                  const firstInputGroup = linkInputsContainer.querySelector('.input-group');
+                  linkInputsContainer.insertBefore(inputGroup, firstInputGroup.nextSibling);
+                });
+              }
+            });
+          </script>
+        <% } %><div class="stream-feed mt-4">
+          <% if (locals.posts && posts.length > 0) { %>
+            <% posts.forEach(post => { %>              <div class="card mb-3">
+                <div class="card-header d-flex align-items-center">                  <% if (post.userId && post.userId.profileImage) { %>
+                    <img src="<%= post.userId.profileImage %>" class="rounded-circle me-2" alt="Profile" style="width: 32px; height: 32px; object-fit: cover;">
+                  <% } else { %>
+                    <img src="/images/default_user_image.jpg" class="rounded-circle me-2" alt="Default profile" style="width: 32px; height: 32px; object-fit: cover;">
+                  <% } %>
+                  <div>
+                    <strong><%= post.userId ? `${post.userId.firstName} ${post.userId.lastName}` : 'Unknown User' %></strong>
+                    <small class="text-muted d-block">
+                      <%= new Date(post.createdAt).toLocaleDateString() %>
+                      <%= new Date(post.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) %>
+                    </small>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <p class="card-text"><%= post.content %></p>
+                  <% if (post.attachments && (post.attachments.files.length > 0 || post.attachments.links.length > 0)) { %>
+                    <div class="attachments-section mb-2">
+                      <strong>Attachments:</strong>                      <% if (post.attachments.files && post.attachments.files.length > 0) { %>
+                        <div class="file-attachments mt-1">
+                          <p class="mb-0">Files:</p>
+                          <ul class="list-unstyled">
+                            <% post.attachments.files.forEach(function(file) { %>
+                              <li class="attachment-item">
+                                <% if (file.mimetype && file.mimetype.startsWith('image/')) { %>
+                                  <div class="mb-2">
+                                    <img src="<%= file.path %>" alt="<%= file.originalname %>" class="img-thumbnail attachment-preview" style="max-height: 150px;">
+                                  </div>
+                                <% } %>
+                                <a href="<%= file.path %>" target="_blank" class="btn btn-sm btn-outline-primary">
+                                  <i class="bi bi-file-earmark"></i>
+                                  <%= file.originalname %>
+                                  <small class="text-muted">(<%= (file.size / 1024).toFixed(1) %> KB)</small>
+                                </a>
+                              </li>
+                            <% }); %>
+                          </ul>
+                        </div>
+                      <% } %>
+                      <% if (post.attachments.links && post.attachments.links.length > 0) { %>
+                        <div class="link-attachments mt-1">
+                          <p class="mb-0">Links:</p>
+                          <ul class="list-unstyled">
+                            <% post.attachments.links.forEach(function(link) { %>
+                              <li><a href="<%= link %>" target="_blank"><%= link %></a></li>
+                            <% }); %>
+                          </ul>
+                        </div>
+                      <% } %>
+                    </div>
+                  <% } %>
+
+                  <!-- Comments section -->
+                  <div class="comments-section mt-4">
+                    <h6 class="comments-heading mb-3">Comments</h6>
+
+                    <!-- Existing comments -->
+                    <% const postComments = commentsByPost && commentsByPost[post._id.toString()] ? commentsByPost[post._id.toString()] : []; %>
+                    <% if (postComments.length > 0) { %>
+                      <div class="comments-list mb-3">
+                        <% postComments.forEach(comment => { %>
+                          <div class="comment-item d-flex mb-2">
+                            <div class="me-2">
+                              <% if (comment.userId && comment.userId.profileImage) { %>
+                                <img src="<%= comment.userId.profileImage %>" class="rounded-circle" alt="Commenter" style="width: 24px; height: 24px; object-fit: cover;">
+                              <% } else { %>
+                                <img src="/images/default_user_image.jpg" class="rounded-circle" alt="Default commenter" style="width: 24px; height: 24px; object-fit: cover;">
+                              <% } %>
+                            </div>
+                            <div class="comment-content">
+                              <div class="d-flex align-items-center">
+                                <strong class="me-2"><%= comment.userId ? `${comment.userId.firstName} ${comment.userId.lastName}` : 'Unknown User' %></strong>
+                                <small class="text-muted">
+                                  <%= new Date(comment.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) %>
+                                </small>
+                              </div>
+                              <div><%= comment.content %></div>
+                            </div>
+                          </div>
+                        <% }); %>
+                      </div>
+                    <% } else { %>
+                      <p class="text-muted">No comments yet</p>
+                    <% } %>
+
+                    <!-- Add comment form -->
+                    <form action="/class/<%= cls._id %>/post/<%= post._id %>/comment" method="POST" class="add-comment-form">
+                      <div class="input-group">
+                        <input type="text" class="form-control" name="content" placeholder="Add a comment..." required>
+                        <button type="submit" class="btn btn-outline-primary">Post</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            <% }); %>
+          <% } else { %>
+            <div class="alert alert-info">
+              <h6 class="alert-heading">Welcome to the class!</h6>
+              <p class="mb-0">This is the beginning of your class stream. No announcements have been posted yet.</p>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

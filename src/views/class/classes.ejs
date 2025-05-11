@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <h2>My Classes</h2>
+    
+    <% if (classes && classes.length > 0) { %>
+      <div class="class-grid mt-4">
+        <% classes.forEach(classItem => { %>
+          <div class="card class-card">
+            <div class="card-body">
+              <h4 class="card-title"><%= classItem.name %></h4>
+              <h6 class="card-subtitle mb-2 text-muted"><%= classItem.section %> | <%= classItem.subject %></h6>
+              <% if (classItem.room) { %>
+                <p class="card-text">Room: <%= classItem.room %></p>
+              <% } %>
+              <p class="card-text">
+                Teacher: <%= classItem.createdBy.firstName %> <%= classItem.createdBy.lastName %>
+              </p>
+              <a href="/class/<%= classItem._id %>" class="btn btn-outline-primary">View Class</a>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    <% } else { %>
+      <div class="alert alert-info mt-4">
+        <% if (user.role === 'teacher') { %>
+          <p>You haven't created any classes yet.</p>
+          <a href="/class/create" class="btn btn-primary">Create a Class</a>
+        <% } else { %>
+          <p>You haven't joined any classes yet.</p>
+          <a href="/class/join" class="btn btn-primary">Join a Class</a>
+        <% } %>
+      </div>
+    <% } %>
+  </div>
+</div>

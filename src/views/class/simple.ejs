@@ -1,0 +1,73 @@
+<!-- filepath: c:\Users\meher\Desktop\Classroom-manager\src\views\class\simple.ejs -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <!-- Basic header -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><%= title %></h1>
+        <a href="/class" class="btn btn-outline-secondary">Back to Classes</a>
+      </div>
+
+      <!-- Simple class info card -->      <div class="card mb-4">
+        <div class="card-header">Class Information</div>
+        <div class="card-body">
+          <h5>Details</h5>
+          <% try { %>
+            <p><strong>Subject:</strong> <%= typeof classData !== 'undefined' && classData && classData.subject ? classData.subject : 'N/A' %></p>
+            <p><strong>Section:</strong> <%= typeof classData !== 'undefined' && classData && classData.section ? classData.section : 'N/A' %></p>
+            <% if (typeof classData !== 'undefined' && classData && classData.room) { %>
+              <p><strong>Room:</strong> <%= classData.room %></p>
+            <% } %>
+            <p><strong>Teacher:</strong> <%= typeof classData !== 'undefined' && classData && classData.teacher && classData.teacher.name ? classData.teacher.name : 'Unknown Teacher' %></p>
+            <p><strong>Students:</strong> <%= typeof classData !== 'undefined' && classData && typeof classData.studentCount !== 'undefined' ? classData.studentCount : 0 %></p>
+          <% } catch(e) { %>
+            <p class="text-danger">Error displaying class details</p>
+          <% } %>          <% try { %>
+            <% if (typeof isTeacher !== 'undefined' && isTeacher === true) { %>
+              <div class="alert alert-info mt-3">
+                <strong>Invite Code:</strong> <%= typeof classData !== 'undefined' && classData && classData.inviteCode ? classData.inviteCode : 'N/A' %>
+                <p class="mb-0 mt-2"><small>Share this code with students to join this class</small></p>
+              </div>
+            <% } %>
+          <% } catch(e) { %>
+            <!-- Error displaying teacher section -->
+          <% } %>
+
+          <!-- Actions -->          <div class="mt-4">
+            <h5>Actions</h5>
+            <div class="d-flex flex-wrap gap-2">
+              <% try { %>
+                <% if (typeof isTeacher !== 'undefined' && isTeacher === true && typeof classData !== 'undefined' && classData && classData.id) { %>
+                  <a href="/assignment/create/<%= classData.id %>" class="btn btn-primary">
+                    Create Assignment
+                  </a>
+                <% } %>
+
+                <% if (typeof classData !== 'undefined' && classData && classData.id) { %>
+                  <a href="/class/<%= classData.id %>/stream" class="btn btn-outline-secondary">
+                    Stream
+                  </a>
+                  <a href="/assignment/class/<%= classData.id %>" class="btn btn-outline-secondary">
+                    Assignments
+                  </a>
+                <% } %>
+              <% } catch(e) { %>
+                <p class="text-danger">Error displaying actions</p>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <% if (debugData) { %>
+      <!-- Debug info -->
+      <div class="card mt-4">
+        <div class="card-header">Debug Information</div>
+        <div class="card-body">
+          <pre><%= debugData %></pre>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</div>

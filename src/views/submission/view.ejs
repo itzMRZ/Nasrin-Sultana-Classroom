@@ -1,0 +1,118 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>My Submission</h2>
+      <a href="/assignment/<%= assignment._id %>" class="btn btn-outline-secondary">
+        Back to Assignment
+      </a>
+    </div>
+    
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5 class="mb-0"><%= assignment.title %></h5>
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          <h6>Due Date:</h6>
+          <p>
+            <% const dueDate = new Date(assignment.dueDate); %>
+            <%= dueDate.toLocaleDateString() %> <%= dueDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) %>
+          </p>
+        </div>
+        
+        <div class="mb-3">
+          <h6>Points:</h6>
+          <p><%= assignment.points %></p>
+        </div>
+      </div>
+    </div>
+    
+    <% if (submission) { %>
+      <div class="card mb-4">
+        <div class="card-header">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Your Submission</h5>
+            <% if (submission.isLate) { %>
+              <span class="badge bg-warning text-dark">Submitted Late</span>
+            <% } %>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <h6>Submission Time:</h6>
+            <p>
+              <% const submittedAt = new Date(submission.submittedAt); %>
+              <%= submittedAt.toLocaleDateString() %> <%= submittedAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) %>
+            </p>
+          </div>
+          
+          <div class="mb-3">
+            <h6>Your Answer:</h6>
+            <div class="card">
+              <div class="card-body bg-light">
+                <p class="mb-0"><%= submission.content %></p>
+              </div>
+            </div>
+          </div>
+          
+          <% if (submission.attachments && submission.attachments.length > 0) { %>
+            <div class="mb-3">
+              <h6>Your Attachments:</h6>
+              <ul class="list-group">
+                <% submission.attachments.forEach(attachment => { %>
+                  <li class="list-group-item">
+                    <a href="<%= attachment %>" target="_blank">
+                      <%= attachment.split('/').pop() %>
+                    </a>
+                  </li>
+                <% }); %>
+              </ul>
+            </div>
+          <% } %>
+          
+          <% if (submission.isGraded) { %>
+            <div class="mt-4">
+              <h5>Grade</h5>
+              <div class="card">
+                <div class="card-body">
+                  <h6 class="mb-3">Score: <%= submission.grade %> / <%= assignment.points %></h6>
+                  
+                  <% if (submission.feedback) { %>
+                    <div>
+                      <h6>Teacher Feedback:</h6>
+                      <p class="mb-0"><%= submission.feedback %></p>
+                    </div>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          <% } %>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Update Your Submission</h5>
+        </div>
+        <div class="card-body">
+          <form action="/submission/<%= assignment._id %>" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="content" class="form-label">Your Answer</label>
+              <textarea class="form-control" id="content" name="content" rows="5" required><%= submission.content %></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="attachments" class="form-label">Add More Attachments (Optional)</label>
+              <input type="file" class="form-control" id="attachments" name="attachments" multiple>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Submission</button>
+          </form>
+        </div>
+      </div>
+    <% } else { %>
+      <div class="alert alert-warning">
+        <p>You haven't submitted anything for this assignment yet.</p>
+        <a href="/assignment/<%= assignment._id %>" class="btn btn-primary">Submit Now</a>
+      </div>
+    <% } %>
+  </div>
+</div>

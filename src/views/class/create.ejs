@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <h2>Create a New Class</h2>
+    
+    <div class="card mt-4">
+      <div class="card-body">
+        <% if (locals.error) { %>
+          <div class="alert alert-danger">
+            <%= error %>
+          </div>
+        <% } %>
+        <form action="/class/create" method="POST">
+          <div class="mb-3">
+            <label for="name" class="form-label">Class Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+          </div>
+          <div class="mb-3">
+            <label for="section" class="form-label">Section</label>
+            <input type="text" class="form-control" id="section" name="section" required>
+          </div>
+          <div class="mb-3">
+            <label for="subject" class="form-label">Subject</label>
+            <input type="text" class="form-control" id="subject" name="subject" required>
+          </div>
+          <div class="mb-3">
+            <label for="room" class="form-label">Room (Optional)</label>
+            <input type="text" class="form-control" id="room" name="room">
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">Create Class</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

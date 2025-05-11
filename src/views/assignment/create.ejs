@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <h2>Create Assignment</h2>
+    <p class="lead">Class: <%= locals.class ? locals.class.name : 'N/A' %> (<%= locals.class ? locals.class.section : 'N/A' %>)</p>
+
+    <div class="card mt-4">
+      <div class="card-body">
+        <form action="/assignment/create/<%= locals.class ? locals.class._id : '' %>" method="POST" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="title" class="form-label">Assignment Title</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="dueDate" class="form-label">Due Date</label>
+            <input type="datetime-local" class="form-control" id="dueDate" name="dueDate" required>
+          </div>
+          <div class="mb-3">
+            <label for="points" class="form-label">Points</label>
+            <input type="number" class="form-control" id="points" name="points" value="100" min="0" max="1000" required>
+          </div>
+          <div class="mb-3">
+            <label for="attachments" class="form-label">Attachments (Optional)</label>
+            <input type="file" class="form-control" id="attachments" name="attachments" multiple>
+            <div class="form-text">You can upload multiple files. Maximum 5 files.</div>
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">Create Assignment</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="mt-3 text-center">
+      <a href="/assignment/class/<%= locals.class ? locals.class._id : '' %>" class="btn btn-link">Cancel</a>
+    </div>
+  </div>
+</div>

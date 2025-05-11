@@ -1,0 +1,11 @@
+<div class="error-container text-center mt-5">
+  <h1>500</h1>
+  <h2>Server Error</h2>
+  <p>Sorry, something went wrong on our end. We're working on fixing it.</p>
+  <% if (locals.errorDetail && locals.errorDetail.length > 0) { %>
+    <div class="alert alert-danger mt-3">
+      <pre class="mb-0"><%= errorDetail %></pre>
+    </div>
+  <% } %>
+  <a href="/" class="btn btn-primary mt-3">Go to Home Page</a>
+</div>

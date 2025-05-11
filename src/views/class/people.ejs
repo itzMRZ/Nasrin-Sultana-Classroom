@@ -1,0 +1,75 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2><%- locals.cls.name %> - People</h2>
+                <a href="/class/<%= locals.cls._id %>" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Back to Class Stream
+                </a>
+            </div>
+
+            <%- include('../partials/messages') %>
+
+            <ul class="nav nav-tabs mb-4">
+                <li class="nav-item">
+                    <a class="nav-link" href="/class/<%= locals.cls._id %>">Stream</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/assignment/class/<%= locals.cls._id %>">Assignments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/class/<%= locals.cls._id %>/people">People</a>
+                </li>
+            </ul>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Teacher</h4>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <% if (locals.teacher) { %>
+                        <li class="list-group-item d-flex align-items-center">
+                            <img src="<%= (locals.teacher.profileImage && locals.teacher.profileImage.startsWith('/')) ? locals.teacher.profileImage : '/images/default_user_image.jpg' %>"
+                                 alt="<%= locals.teacher.firstName %> <%= locals.teacher.lastName %>"
+                                 class="rounded-circle me-3"
+                                 style="width: 40px; height: 40px; object-fit: cover;">
+                            <a href="/profile/<%= locals.teacher._id %>" class="text-decoration-none">
+                                <%= locals.teacher.firstName %> <%= locals.teacher.lastName %>
+                            </a>
+                        </li>
+                    <% } else { %>
+                        <li class="list-group-item">Teacher information not available.</li>
+                    <% } %>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4>Students</h4>
+                    <span class="badge bg-primary rounded-pill"><%= locals.students.length %></span>
+                </div>
+                <% if (locals.students && locals.students.length > 0) { %>
+                    <ul class="list-group list-group-flush">
+                        <% locals.students.forEach(student => { %>
+                            <li class="list-group-item d-flex align-items-center">
+                                <img src="<%= (student.profileImage && student.profileImage.startsWith('/')) ? student.profileImage : '/images/default_user_image.jpg' %>"
+                                     alt="<%= student.firstName %> <%= student.lastName %>"
+                                     class="rounded-circle me-3"
+                                     style="width: 40px; height: 40px; object-fit: cover;">
+                                <div>
+                                    <a href="/profile/<%= student._id %>" class="text-decoration-none">
+                                        <%= student.firstName %> <%= student.lastName %>
+                                    </a>
+                                    <small class="text-muted d-block">@<%= student.username %></small>
+                                </div>
+                            </li>
+                        <% }); %>
+                    </ul>
+                <% } else { %>
+                    <div class="card-body">
+                        <p class="text-muted">No students enrolled in this class yet.</p>
+                    </div>
+                <% } %>            </div>
+        </div>
+    </div>
+</div>

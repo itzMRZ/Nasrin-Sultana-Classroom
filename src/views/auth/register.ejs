@@ -1,0 +1,58 @@
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="mb-0">Register</h3>
+      </div>
+      <div class="card-body">
+        <% if (error) { %>
+          <div class="alert alert-danger">
+            <%= error %>
+          </div>
+        <% } %>
+        <form action="/auth/register" method="POST">
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <label for="firstName" class="form-label">First Name</label>
+              <input type="text" class="form-control" id="firstName" name="firstName" required>
+            </div>
+            <div class="col">
+              <label for="lastName" class="form-label">Last Name</label>
+              <input type="text" class="form-control" id="lastName" name="lastName" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="student">Role</label>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="role" id="student" value="student" checked>
+              <label class="form-check-label" for="student">
+                Student
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="role" id="teacher" value="teacher">
+              <label class="form-check-label" for="teacher">
+                Teacher
+              </label>
+            </div>
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">Register</button>
+          </div>
+        </form>
+        <hr>
+        <div class="text-center">
+          <p>Already have an account? <a href="/auth/login">Login</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

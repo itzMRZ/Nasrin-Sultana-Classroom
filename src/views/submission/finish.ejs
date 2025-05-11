@@ -1,0 +1,59 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="card">
+        <div class="card-header bg-success text-white">
+          <h4 class="mb-0"><i class="fas fa-check-circle me-2"></i> Action Completed Successfully</h4>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-success mb-4">
+            <p><%= locals.message || 'Your action has been completed successfully!' %></p>
+          </div>
+
+          <% if (locals.submission) { %>
+            <div class="card mb-4">
+              <div class="card-header">
+                <h5 class="mb-0">Submission Details</h5>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <p><strong>Assignment:</strong> <%= locals.assignment ? locals.assignment.title : 'N/A' %></p>
+                    <p><strong>Student:</strong>
+                      <% if (locals.student) { %>
+                        <%= locals.student.firstName %> <%= locals.student.lastName %>
+                      <% } else { %>
+                        N/A
+                      <% } %>
+                    </p>
+                  </div>
+                  <div class="col-md-6">
+                    <p><strong>Status:</strong>
+                      <span class="<%= locals.submission.isGraded ? 'badge bg-success' : 'badge bg-warning' %>">
+                        <%= locals.submission.isGraded ? 'Graded' : 'Pending' %>
+                      </span>
+                    </p>
+                    <% if (locals.submission.isGraded) { %>
+                      <p><strong>Grade:</strong> <%= locals.submission.grade %> / <%= locals.assignment ? locals.assignment.points : 100 %></p>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% } %>
+
+          <div class="text-center">
+            <% if (locals.assignmentId) { %>
+              <a href="/submission/<%= locals.assignmentId %>/all" class="btn btn-outline-primary me-2">
+                <i class="fas fa-list"></i> Back to All Submissions
+              </a>
+            <% } %>
+            <a href="/class" class="btn btn-outline-secondary">
+              <i class="fas fa-home"></i> My Classes
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <h2>Join a Class</h2>
+    
+    <div class="card mt-4">
+      <div class="card-body">
+        <p class="card-text">
+          Enter the class invite code provided by your teacher to join the class.
+        </p>
+        <% if (locals.error) { %>
+          <div class="alert alert-danger">
+            <%= error %>
+          </div>
+        <% } %>
+        <form action="/class/join" method="POST">
+          <div class="mb-3">
+            <label for="inviteCode" class="form-label">Class Invite Code</label>
+            <input type="text" class="form-control" id="inviteCode" name="inviteCode" required>
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">Join Class</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

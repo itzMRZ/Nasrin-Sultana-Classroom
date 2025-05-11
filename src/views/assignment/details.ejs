@@ -1,0 +1,83 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <div class="d-flex justify-content-between align-items-center mb-4">      <h2><%= assignment.title %></h2>
+      <div>
+        <% if (locals.isTeacher || locals.isClassTeacher) { %>
+          <a href="/submission/<%= assignment._id %>/all" class="btn btn-primary">
+            View All Submissions
+          </a>
+        <% } else { %>
+          <a href="/submission/<%= assignment._id %>/my" class="btn btn-primary">
+            My Submission
+          </a>
+        <% } %>
+        <a href="/assignment/class/<%= assignment.class._id %>" class="btn btn-outline-secondary ms-2">
+          Back to Assignments
+        </a>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="mb-3">
+          <h5>Instructions</h5>
+          <p><%= assignment.description %></p>
+        </div>
+
+        <div class="mb-3">
+          <h5>Details</h5>
+          <p><strong>Points:</strong> <%= assignment.points %></p>
+          <p>
+            <strong>Due Date:</strong>
+            <% const dueDate = new Date(assignment.dueDate); %>
+            <% const now = new Date(); %>
+            <% const isOverdue = now > dueDate; %>
+            <span class="<%= isOverdue ? 'text-danger' : '' %>">
+              <%= dueDate.toLocaleDateString() %> <%= dueDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) %>
+              <% if (isOverdue) { %>
+                <span class="badge bg-danger ms-2">Overdue</span>
+              <% } %>
+            </span>
+          </p>
+          <p><strong>Posted by:</strong> <%= assignment.createdBy.firstName %> <%= assignment.createdBy.lastName %></p>
+        </div>
+
+        <% if (assignment.attachments && assignment.attachments.length > 0) { %>
+          <div class="mb-3">
+            <h5>Attachments</h5>
+            <ul class="list-group">
+              <% assignment.attachments.forEach(attachment => { %>
+                <li class="list-group-item">
+                  <a href="<%= attachment %>" target="_blank">
+                    <%= attachment.split('/').pop() %>
+                  </a>
+                </li>
+              <% }); %>
+            </ul>
+          </div>
+        <% } %>
+      </div>
+    </div>
+
+    <% if (!isTeacher) { %>
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Submit Your Work</h5>
+        </div>
+        <div class="card-body">
+          <form action="/submission/<%= assignment._id %>" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="content" class="form-label">Your Answer</label>
+              <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="attachments" class="form-label">Attachments (Optional)</label>
+              <input type="file" class="form-control" id="attachments" name="attachments" multiple>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+<div class="container">
+    <h2>Edit Profile</h2>
+    <%- include('../partials/messages') %>
+
+    <form action="/profile/edit" method="POST" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <img src="<%= (locals.profileData.profileImage && locals.profileData.profileImage.startsWith('/')) ? locals.profileData.profileImage : '/images/default_user_image.jpg' %>"
+                     alt="Current Profile Preview"
+                     class="img-fluid rounded-circle mb-3"
+                     style="width: 150px; height: 150px; object-fit: cover;"
+                     id="profileImagePreview">
+                <div class="mb-3">
+                    <label for="profileImage" class="form-label">Change Profile Image</label>
+                    <input class="form-control" type="file" id="profileImage" name="profileImage" onchange="previewImage(event)">
+                    <small class="form-text text-muted">Max 5MB. Allowed types: JPG, JPEG, PNG, GIF.</small>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="mb-3">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName" value="<%= locals.profileData.firstName %>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName" value="<%= locals.profileData.lastName %>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" value="<%= locals.profileData.username %>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="email" name="email" value="<%= locals.profileData.email %>" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a href="/profile" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function(){
+            const output = document.getElementById('profileImagePreview');
+            output.src = reader.result;
+        };
+        if (event.target.files && event.target.files[0]) {
+            reader.readAsDataURL(event.target.files[0]);
+        } else {
+            // If no file is selected, or selection is cancelled, revert to the original image.
+            // The src attribute of the img tag already handles the default if profileData.profileImage is not set.
+            const originalImage = "<%= (locals.profileData.profileImage && locals.profileData.profileImage.startsWith('/')) ? locals.profileData.profileImage : '/images/default_user_image.jpg' %>";
+            document.getElementById('profileImagePreview').src = originalImage;
+        }
+    }
+</script>

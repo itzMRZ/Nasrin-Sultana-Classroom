@@ -1,0 +1,70 @@
+<!-- Home Page -->
+<div class="jumbotron">
+  <h1 class="display-4">Welcome to Classroom</h1>
+  <p class="lead">A simple classroom management system for teachers and students.</p>
+  
+  <% if (!user) { %>
+    <hr class="my-4">
+    <p>Get started by logging in or creating an account.</p>
+    <div class="d-flex">
+      <a href="/auth/login" class="btn btn-primary me-2">Login</a>
+      <a href="/auth/register" class="btn btn-secondary">Register</a>
+    </div>
+  <% } else { %>
+    <hr class="my-4">
+    <p>Go to your classes to view assignments and interact with your courses.</p>
+    <a href="/class" class="btn btn-primary">My Classes</a>
+  <% } %>
+</div>
+
+<% if (user) { %>
+  <div class="row mt-5">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          Quick Links
+        </div>
+        <div class="card-body">
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <a href="/class" class="text-decoration-none">My Classes</a>
+              <span class="badge bg-primary rounded-pill">→</span>
+            </li>
+            <% if (user.role === 'teacher') { %>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="/class/create" class="text-decoration-none">Create New Class</a>
+                <span class="badge bg-primary rounded-pill">→</span>
+              </li>
+            <% } else { %>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="/class/join" class="text-decoration-none">Join Class with Code</a>
+                <span class="badge bg-primary rounded-pill">→</span>
+              </li>
+            <% } %>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <a href="/profile" class="text-decoration-none">My Profile</a>
+              <span class="badge bg-primary rounded-pill">→</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          About Classroom
+        </div>
+        <div class="card-body">
+          <p>Classroom helps teachers and students communicate, collaborate and manage assignments easily.</p>
+          <p>Features include:</p>
+          <ul>
+            <li>Create and join classes with invite codes</li>
+            <li>Create and submit assignments</li>
+            <li>Grade submissions and provide feedback</li>
+            <li>Track due dates and class progress</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+<% } %>

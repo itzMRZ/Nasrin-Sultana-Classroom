@@ -1,0 +1,35 @@
+# Node
+node_modules/
+
+# Build
+dist/
+
+# Logs
+logs/
+
+# Temp
+temp/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test/Debug
+*.bak
+*.log
+debug.js
+EASY_START.md
+quickstart.ps1
+quickstart.sh
+rebuild.ps1
+run-dev.ps1
+simple_start.ps1
+start_easy.ps1
+start_production.ps1
+start.bat
+start.ps1
+deploy.ps1
+update-js.ps1
+
+# Environment
+.env

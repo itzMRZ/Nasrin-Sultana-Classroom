@@ -1,0 +1,284 @@
+/* General Styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+  --main-color: #3f51b5; /* Default color if no theme is active */
+  --main-bg: #fff;
+  --main-text: #222;
+  --secondary-color: #f5f5f5;
+  color: #222 !important;
+}
+
+/* THEME COLOR USAGE REFINEMENT - FINAL CLEANUP */
+
+body.teacher {
+  --main-color: #fc421a;
+  --main-bg: #fff7f3;
+  --main-text: #2d1200;
+  --secondary-color: #ffe3d6;
+}
+body.student {
+  --main-color: #6a0183;
+  --main-bg: #f8f5fa;
+  --main-text: #1a0022;
+  --secondary-color: #e8d6f7;
+}
+
+.navbar {
+  background-color: var(--main-color) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border-bottom: 2px solid var(--secondary-color);
+}
+
+.navbar .navbar-brand {
+  color: #fff !important;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.navbar .nav-link {
+  color: #fff !important;
+  margin-right: 0.5rem;
+  border-radius: 4px;
+  transition: background 0.2s, color 0.2s;
+  font-weight: 500;
+}
+
+.navbar .nav-link.active, .navbar .nav-link:focus, .navbar .nav-link:hover {
+  background: #fff !important;
+  color: var(--main-color) !important;
+}
+
+.navbar .dropdown-menu {
+  background: #fff !important;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.10);
+  min-width: 180px;
+  margin-top: 8px;
+}
+
+.navbar .dropdown-item {
+  color: #222 !important;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  background: #fff !important;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.navbar .dropdown-item.active,
+.navbar .dropdown-item:active {
+  background-color: var(--main-color) !important;
+  color: #fff !important;
+}
+
+.navbar .dropdown-item:hover {
+  background-color: #f5f5f5 !important;
+  color: var(--main-color) !important;
+}
+
+.card, .dropdown-menu, .class-card, .card-body {
+  background: #fff !important;
+  color: #222 !important;
+  border: 1px solid #eee;
+}
+
+.card-title, .main-title {
+  color: var(--main-color) !important;
+  background: none !important;
+}
+
+.class-card {
+  border-top: 5px solid var(--main-color) !important;
+  height: auto;
+  min-height: 220px;
+}
+
+a, .text-primary, .link-primary {
+  color: #222 !important;
+  background: none !important;
+  text-decoration: underline;
+}
+
+a:hover, .link-primary:hover {
+  color: #fff !important;
+  background: var(--main-color) !important;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-primary, .btn-primary:focus, .btn-primary:active {
+  background-color: var(--main-color) !important;
+  border-color: var(--main-color) !important;
+  color: #fff !important;
+}
+
+.btn-primary:hover {
+  background-color: #fff !important;
+  color: var(--main-color) !important;
+  border: 1px solid var(--main-color) !important;
+}
+
+.container {
+  max-width: 1200px;
+}
+
+/* Responsive and utility classes remain unchanged */
+
+@media (max-width: 991.98px) {
+  .navbar .navbar-nav .nav-link {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+  .navbar .dropdown-menu {
+    min-width: 100%;
+  }
+}
+
+.card {
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Class Grid */
+.class-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .class-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .card:hover {
+    transform: none; /* Disable hover animation on mobile */
+  }
+}
+
+.class-card.math {
+  border-top-color: #dc3545;
+}
+
+.class-card.science {
+  border-top-color: #28a745;
+}
+
+.class-card.history {
+  border-top-color: #17a2b8;
+}
+
+.class-card.english {
+  border-top-color: #6610f2;
+}
+
+/* Assignment Styles */
+.assignment-deadline {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+/* Fix assignment card height */
+.assignment-card {
+  height: auto;
+  min-height: 150px;
+}
+
+/* General Utilities */
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #800080;
+}
+
+.icon-button:hover {
+  color: #0a58ca;
+}
+
+.d-flex {
+  display: flex !important;
+}
+
+.align-items-center {
+  align-items: center !important;
+}
+
+/* Submission Section */
+.submission-box {
+  border: 2px dashed #ced4da;
+  border-radius: 10px;
+  padding: 20px;
+  transition: border-color 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.submission-box:hover {
+  border-color: #17a2b8;
+}
+
+/* Responsive image handling */
+.responsive-img {
+  max-width: 100%;
+  height: auto;
+}
+
+.profile-img {
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile-img-sm {
+  width: 36px;
+  height: 36px;
+}
+
+.profile-img-md {
+  width: 64px;
+  height: 64px;
+}
+
+.profile-img-lg {
+  width: 128px;
+  height: 128px;
+}
+
+/* Error Page */
+.error-container {
+  text-align: center;
+  padding: 5rem 0;
+}
+
+.error-container h1 {
+  font-size: 8rem;
+  margin-bottom: 1rem;
+}
+
+/* Fix container padding on smaller screens */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .icon-button {
+    padding: 0.5rem; /* Larger touch target on mobile */
+  }
+}
+
+/* Ensure Bootstrap alerts use default colors, not theme */
+.alert, .alert-danger, .alert-success, .alert-warning, .alert-info {
+  color: inherit !important;
+  background: inherit !important;
+  border-color: inherit !important;
+}
