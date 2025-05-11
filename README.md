@@ -1,6 +1,6 @@
 > **:warning: NOTE:**
-> This was hosted by itzMRZ on behalf of Nasrin Sultana.
-> itzMRZ does not own any liability of the project.
+> ItzMRZ hosted this project on behalf of Nasrin Sultana.
+> Nasrin Sultana owns the copyright and liability of this project
 >
 > _Some .ps1, .bat files, and the logs directory were created for test cases, please ignore._
 
@@ -34,4 +34,3 @@ A simple web application for teachers and students to manage classes, assignment
 > - All `.ps1`, `.sh`, `.bat`, `.bak`, `.log` files (test/debug scripts and logs)
 > - `debug.js`, `EASY_START.md`, and other helper scripts
 > - `.env` (environment variables and secrets)
-> - OS files like `.DS_Store`, `Thumbs.db`
