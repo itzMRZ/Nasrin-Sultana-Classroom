@@ -1,3 +1,4 @@
+![Database Status](https://img.shields.io/endpoint?url=https://nasrin-sultana-classroom.itzmrz.xyz/dbstatus-badge)
 > **:warning: NOTE:**
 > ItzMRZ hosted this project on behalf of Nasrin Sultana.
 >
