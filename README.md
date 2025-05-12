@@ -1,6 +1,7 @@
 > **:warning: NOTE:**
 > ItzMRZ hosted this project on behalf of Nasrin Sultana.
-> _Nasrin Sultana owns the copyright and liability of this project
+>
+> Nasrin Sultana owns the copyright and liability of this project
 >
 > _Some .ps1, .bat files, and the logs directory were created for test cases, please ignore._
 
