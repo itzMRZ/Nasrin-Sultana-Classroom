@@ -132,6 +132,39 @@ app.get('/dbstatus', (req, res) => {
   res.json({ connected: status === 1, status });
 });
 
+// Shields.io badge endpoint for DB status
+app.get('/dbstatus-badge', async (req, res) => {
+  try {
+    // Fetch local /dbstatus endpoint
+    const fetch = (await import('node-fetch')).default;
+    const url = `${req.protocol}://${req.get('host')}/dbstatus`;
+    const response = await fetch(url);
+    const data = await response.json();
+    if (data.connected === true && data.status === 1) {
+      res.json({
+        schemaVersion: 1,
+        label: 'db',
+        message: 'connected',
+        color: 'green'
+      });
+    } else {
+      res.json({
+        schemaVersion: 1,
+        label: 'db',
+        message: 'disconnected',
+        color: 'red'
+      });
+    }
+  } catch (err) {
+    res.json({
+      schemaVersion: 1,
+      label: 'db',
+      message: 'error',
+      color: 'red'
+    });
+  }
+});
+
 // 404 handler
 app.use(notFoundHandler);
 
