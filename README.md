@@ -1,6 +1,6 @@
 [![Database Status](https://img.shields.io/endpoint?url=https://nasrin-sultana-classroom.itzmrz.xyz/dbstatus-shields)](https://nasrin-sultana-classroom.itzmrz.xyz/dbstatus-shields)
 > **:warning: NOTE:**
-> ItzMRZ hosted this project on behalf of Nasrin Sultana.
+> ItzMRZ hosted this project on https://nasrin-sultana-classroom.itzmrz.xyz/ behalf of Nasrin Sultana.
 >
 > Nasrin Sultana owns the copyright and liability of this project
 >
