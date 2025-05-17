@@ -25,14 +25,4 @@ A simple web application for teachers and students to manage classes, assignment
 - Database is hosted on MongoDB Atlas
 - Application is hosted on Render.com
 
----
 
-> **Note:**
-> The following files and folders are hidden from version control via `.gitignore` for security and cleanliness:
-> - `node_modules/` (dependencies)
-> - `dist/` (build output)
-> - `logs/` (log files)
-> - `temp/` (temporary files)
-> - All `.ps1`, `.sh`, `.bat`, `.bak`, `.log` files (test/debug scripts and logs)
-> - `debug.js`, `EASY_START.md`, and other helper scripts
-> - `.env` (environment variables and secrets)
